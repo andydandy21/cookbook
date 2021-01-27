@@ -1,0 +1,44 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+   
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="{% static 'recipes/js/dynamic_formset.js' %}"></script>
+
+</head>
+<body>
+
+    <nav class="navbar sticky-top navbar-light" style="background-color: #befdc9;">
+        <div class="container-fluid d-flex">
+            <a class="navbar-brand me-0" href="{% url 'mmp-home' %}">Home</a>
+            <form method="GET" action="{% url 'search-list' %}">
+                <div class="input-group">
+                        <a class="btn btn-primary dropdown-toggle px-2" role="button" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false">tags</a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                {% for tag in tags %}
+                                    <a class="dropdown-item" href="/tag/?tag={{ tag }}">{{ tag }}</a>
+                                {% endfor %}
+                            </ul>    
+                    <input class="form-control" type="search" name="search" placeholder="Search Recipes" area-label="Search" style="width: 700px;">
+                    <button class="btn btn-primary bi bi-search" type="submit"></button>
+                </div>
+            </form>
+            <a class="navbar-brand" href="{% url 'recipe-create' %}">Create</a>
+        </div>
+        
+    </nav>
+    
+    {% block content %}{% endblock %}
+
+</body>
+</html>

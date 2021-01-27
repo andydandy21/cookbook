@@ -1,0 +1,79 @@
+{% extends "recipes/base.html" %}
+{% block content %}
+
+<form method="post">
+    <div class="container">
+        <div class="row">
+            {% csrf_token %}
+            <div class="col">
+                <legend>Recipe</legend>
+                <table class="table m-4">
+                    <tr>
+                        <th>{{ form.name.label }}:</td>
+                        <td>{{ form.name }}</td>
+                    </tr>
+                    <tr>
+                        <th>{{ form.tags.label }}</th>
+                        <td>{{ form.tags }}</td>
+                    </tr>
+                    <tr>
+                        <th>{{ form.description.label }}:</td> 
+                        <td>{{ form.description }}</td>
+                    </tr>
+                    <tr>
+                        <th>{{ form.image.label }}:</td> 
+                        <td>{{ form.image }}</td>
+                    </tr>
+                    <tr>
+                        <th>{{ form.instructions.label }}</th>
+                        <td>{{ form.instructions }}</td>
+                    </tr>
+                </table>
+                <button type="submit" name="save" value="save">Save Recipe</button>
+            </div>
+            
+            <div class="col ms-4">
+                <legend>Ingredients</legend>
+                <table class="table m-4">
+                    {{ ingredients.management_form }}
+
+                    {% for form in ingredients.forms %}
+                        {% if forloop.first %}
+                            
+                                <tr>
+                                    <th> {{ form.name.label }}</th>
+                                    <th> {{ form.quantity.label }}</th>
+                                    <th> {{ form.measurement.label }}</th>
+                                    <th> {{ form.DELETE.label }}</th>
+                                </tr>
+                            
+                        {% endif %}
+                        <tr class="formset_row">
+                            {% for field in form.visible_fields %}
+                                <td>
+                                    {% if forloop.first %}
+                                        {% for hidden in form.hidden_fields %}
+                                            {{ hidden }}
+                                        {% endfor %}
+                                    {% endif %}
+                                    {{ field.errors.as_ul }}
+                                    {{ field }}
+                                </td>
+                                
+                            {% endfor %}
+                        </tr>
+
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+</form>
+<script type="text/javascript">
+    $('.formset_row').formset({
+        addText: 'add ingredient',
+        deleteText: 'remove',
+        prefix: 'ingredient_set'
+    });
+</script>
+{% endblock content %}

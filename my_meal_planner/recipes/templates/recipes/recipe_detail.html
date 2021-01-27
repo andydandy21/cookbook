@@ -1,0 +1,33 @@
+{% extends "recipes/base.html" %}
+{% block content %}
+
+    <div class="container">
+        <div class="d-flex">
+            <h1>Recipe: {{object.name}}</h1>
+            <a class="btn btn-secondary ms-auto my-2" href="{% url 'recipe-update' recipe.id %}" role="button">Edit</a>
+            <a class="btn btn-danger ms-2 my-2" href="{% url 'recipe-delete' recipe.id %}" role="button">Delete</a>
+        </div>
+        <img class="d-flex mx-auto" src="{{ recipe.image.url }}" class="img-fluid" alt="...">
+        <br>
+        <br>
+        <form method="GET" action="{% url 'tag-list' %}">
+            <table>
+                <th><h6>Tags: &emsp;</h6></th>
+                <td>
+                    {% for tag in recipe.tags.all %}                                
+                    <input class="btn btn-outline-primary btn-sm" type="submit" name="tag" value="{{ tag }}">                                
+                    {% endfor %}
+                </td>
+            </table>
+        </form>
+        <h3 class="mt-4">Description</h3>
+        <p>{{ object.description }}</p>
+        <h3 class="mt-4">Ingredients</h3>
+        {% for ingredient in object.ingredient_set.all %}
+            <p>{{ ingredient.name }}: {{ ingredient.quantity }} {{ ingredient.measurement }}</p>
+        {% endfor %}
+        <h3>Instructions</h3>
+        <p>{{ object.instructions }}</p>
+    </div>
+    
+{% endblock content %}
